@@ -58,7 +58,7 @@ function formatDate(dateString) {
     year: "numeric"
   });
 }
-
+/* ... */
 function capitalize(text) {
   if (!text) {
     return "";
