@@ -167,21 +167,33 @@ function updateCounts() {
 }
 
 function createLabelHTML(label) {
+  const labelValue = String(label).toLowerCase();
   const labelText = String(label).toUpperCase();
 
   let labelClass = "bg-[#FEF2F2] text-[#EF4444]";
+  let iconPath = "";
 
-  if (String(label).toLowerCase() === "enhancement") {
+  if (labelValue === "enhancement") {
     labelClass = "bg-[#DCFCE7] text-[#22C55E]";
-  } else if (String(label).toLowerCase() === "documentation") {
+    iconPath = "./assets/enhance.png";
+  } else if (labelValue === "documentation") {
     labelClass = "bg-[#DBEAFE] text-[#3B82F6]";
-  } else if (String(label).toLowerCase() === "good first issue") {
+  } else if (labelValue === "good first issue") {
     labelClass = "bg-[#EDE9FE] text-[#8B5CF6]";
-  } else if (String(label).toLowerCase() === "help wanted") {
+  } else if (labelValue === "help wanted") {
     labelClass = "bg-[#FEF3C7] text-[#F59E0B]";
+    iconPath = "./assets/help.png";
+  } else if (labelValue === "bug") {
+    labelClass = "bg-[#FECACA] text-[#EF4444]";
+    iconPath = "./assets/bug.png";
   }
 
-  return `<span class="inline-flex items-center rounded-full px-2 py-[3px] text-[10px] font-semibold ${labelClass}">${labelText}</span>`;
+  return `
+    <span class="inline-flex items-center gap-1.5 rounded-full px-2 py-[3px] text-[10px] font-semibold ${labelClass}">
+      ${iconPath ? `<img src="${iconPath}" alt="${labelText}" class="w-3.5 h-3.5 object-contain" />` : ""}
+      ${labelText}
+    </span>
+  `;
 }
 
 function renderIssues() {
@@ -207,8 +219,8 @@ function renderIssues() {
     .map(function (issue) {
       const labelsHTML = Array.isArray(issue.labels)
         ? issue.labels.map(function (label) {
-            return createLabelHTML(label);
-          }).join("")
+          return createLabelHTML(label);
+        }).join("")
         : "";
 
       return `
